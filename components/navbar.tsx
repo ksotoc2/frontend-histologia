@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import Image from 'next/image'
-import { ChevronDown, LogOut, User as UserIcon } from 'lucide-react'
+import { ChevronDown, LogOut, User as UserIcon, Menu, X } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 
 // Define the precise nested navigational structure
@@ -54,10 +54,8 @@ export function Navbar({ isScrolled = false }: { isScrolled?: boolean }) {
   const { user, logout } = useAuth()
 
   return (
-    // [CORRECCIÓN]: Se quitó la clase 'overflow-hidden' de este contenedor <nav> que recortaba los Dropdowns.
-    // [CORRECCIÓN]: Se mantiene 'sticky top-0 z-50' para que el header tenga jerarquía sobre el layout entero.
     <nav className={`sticky top-0 z-50 bg-blue-700 text-white shadow-lg navbar-wrapper ${isScrolled ? 'navbar-shrunk' : 'navbar-expanded'}`}>
-      {/* Fondo anatómico Histológico vectorizado */}
+      {/* Fondo anatómico Histológico vectorizado — INTACTO */}
       <div
         className="absolute inset-0 z-0 opacity-[0.25] pointer-events-none"
         style={{
@@ -66,227 +64,185 @@ export function Navbar({ isScrolled = false }: { isScrolled?: boolean }) {
         }}
       />
 
-      <div className="relative z-10 px-4 md:px-8 lg:px-12 nav-inner-padding">
-        
-        {/* =========================================
-            DESKTOP LAYOUT
-        =========================================== */}
-        <div className="hidden lg:flex w-full justify-between items-center gap-6 transition-all duration-300">
+      {/* ═══════════════════════════════════════════════
+          CONTENIDO INTERNO REESTRUCTURADO
+      ═══════════════════════════════════════════════ */}
+      <div className="relative z-10 flex justify-between items-center w-full px-6 py-2">
+
+        {/* ═══════════ EXTREMO IZQUIERDO: Solo Logo ═══════════ */}
+        <Link href="/" className="shrink-0 relative w-12 h-12">
+          <Image src="/logo-histologia.png" alt="Logo Cátedra Histología" fill priority className="object-contain" />
+        </Link>
+
+        {/* ═══════════ EXTREMO DERECHO: Enlaces + Botón (Desktop) ═══════════ */}
+        <div className="hidden md:flex items-center gap-6">
           
-          {/* Logo Primario (Histología) */}
-          <div className="flex items-center justify-center shrink-0 relative nav-logo-primary">
-            <Image src="/logo-histologia.png" alt="Logo Cátedra Histología" fill priority className="object-contain" />
-          </div>
+          {/* Enlaces de navegación */}
+          {navItems.map((item) => (
+            <div key={item.label} className="relative group">
+              <Link
+                href={item.href}
+                className="flex items-center text-white text-sm font-medium hover:text-gray-200 transition-colors whitespace-nowrap py-2"
+              >
+                {item.label}
+                {item.subItems && (
+                  <ChevronDown className="w-4 h-4 ml-1 opacity-70 transition-transform duration-300 group-hover:rotate-180 group-hover:opacity-100" />
+                )}
+              </Link>
 
-          {/* Título & Navbar Interactiva Central */}
-          <div className="flex flex-col nav-center-column grow transition-all duration-300 z-50">
-            {/* Título Departamental (Colapsable al hacer scroll) */}
-            <div className="text-left nav-title-container">
-              <h1 className="text-3xl font-bold leading-tight">CÁTEDRA DE HISTOLOGÍA</h1>
-              <hr className="border-t-2 border-white/80 my-2 w-full" />
-              <p className="text-sm font-semibold tracking-wide text-white/90">DEPARTAMENTO DE CIENCIAS MORFOLÓGICAS</p>
-            </div>
-
-            {/* Fila de Menú Horizontal con Dropdowns Hover */}
-            <div className="flex justify-end items-center gap-6">
-              <ul className="flex gap-1 xl:gap-4 list-none m-0 p-0 flex-wrap justify-end items-center">
-                {navItems.map((item) => (
-                  // [CORRECCIÓN]: Se conserva 'relative' en el contenedor <li> (padre) para darle contexto apilado al dropdown (hijo)
-                  <li key={item.label} className="relative group">
-                    <Link
-                      href={item.href}
-                      className="flex items-center py-4 px-2 xl:px-3 text-sm font-medium hover:text-white/80 transition-colors whitespace-nowrap"
-                    >
-                      {item.label}
-                      {item.subItems && (
-                        <ChevronDown className="w-4 h-4 ml-1 opacity-70 transition-transform duration-300 group-hover:rotate-180 group-hover:opacity-100" />
-                      )}
-                    </Link>
-
-                    {/* Submenu Dropdown Bridge & Popup */}
-                    {/* [CORRECCIÓN]: Usa 'absolute' anclado al bottom ('top-full') y tiene 'z-50' para flotar impecablemente */}
-                    {item.subItems && (
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-0 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50 pointer-events-none group-hover:pointer-events-auto">
-                        <div className="bg-white text-slate-800 rounded-lg shadow-2xl border border-slate-100 overflow-hidden flex flex-col py-2 mt-1">
-                          {item.subItems.map((sub) => (
-                            <Link
-                              key={sub.label}
-                              href={sub.href}
-                              className="px-4 py-2.5 text-sm font-medium hover:bg-slate-50 hover:text-blue-700 transition-colors"
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ul>
-
-              {/* Lógica Dinámica de Sesión (Desktop) */}
-              {!user ? (
-                <Link 
-                  href="/login"
-                  title="Iniciar Sesión"
-                  className="flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-sm ml-2"
-                >
-                  <UserIcon className="w-5 h-5 opacity-90" />
-                </Link>
-              ) : (
-                <div className="relative group ml-2">
-                  <button
-                    title="Perfil de Usuario"
-                    className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-800 hover:bg-blue-900 border-2 border-white/50 transition-colors shadow-sm overflow-hidden"
-                  >
-                    {user.urlFotoPerfil ? (
-                      <img src={user.urlFotoPerfil} alt="Perfil" className="w-full h-full object-cover" />
-                    ) : (
-                      <span className="text-sm font-bold uppercase tracking-widest">{user.nombres.charAt(0)}{user.apPaterno?.charAt(0)}</span>
-                    )}
-                  </button>
-                  
-                  {/* Dropdown flotante (Hover) del Perfil */}
-                  <div className="absolute top-full right-0 pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
-                    <div className="bg-white text-slate-800 rounded-lg shadow-xl border border-slate-100 overflow-hidden flex flex-col py-1">
-                      <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
-                        <p className="text-sm font-bold text-slate-900 truncate">{user.nombres} {user.apPaterno}</p>
-                        <p className="text-xs text-slate-500 truncate">{user.email}</p>
-                      </div>
-                      <Link href="/perfil" className="px-4 py-2.5 text-sm font-medium hover:bg-blue-50 transition-colors flex items-center gap-2 text-slate-700">
-                        <UserIcon className="w-4 h-4" /> Mi Perfil
-                      </Link>
-                      <button 
-                        onClick={() => {
-                          logout();
-                          setIsOpen(false);
-                        }}
-                        className="px-4 py-2.5 text-sm font-medium hover:bg-red-50 text-red-600 transition-colors flex items-center gap-2 text-left w-full"
+              {/* Dropdown submenu */}
+              {item.subItems && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50 pointer-events-none group-hover:pointer-events-auto">
+                  <div className="bg-white text-slate-800 rounded-lg shadow-2xl border border-slate-100 overflow-hidden flex flex-col py-2">
+                    {item.subItems.map((sub) => (
+                      <Link
+                        key={sub.label}
+                        href={sub.href}
+                        className="px-4 py-2.5 text-sm font-medium hover:bg-slate-50 hover:text-[#001f3f] transition-colors"
                       >
-                        <LogOut className="w-4 h-4" /> Cerrar Sesión
-                      </button>
-                    </div>
+                        {sub.label}
+                      </Link>
+                    ))}
                   </div>
                 </div>
               )}
             </div>
-          </div>
+          ))}
 
-          {/* Logo Secundario (UMSA) - Oculto al scrollear */}
-          <div className="flex items-center justify-center shrink-0 relative nav-logo-secondary">
-            <Image src="/logo-umsa.png" alt="Logo UMSA" fill priority className="object-contain" />
-          </div>
-        </div>
+          {/* Separador vertical sutil */}
+          <div className="w-px h-6 bg-white/20" />
 
-        {/* =========================================
-            MOBILE LAYOUT
-        =========================================== */}
-        <div className="lg:hidden flex items-center justify-between gap-3 w-full transition-all duration-300">
-          {/* Logo Móvil Principal */}
-          <div className="flex items-center justify-center shrink-0 relative nav-logo-primary">
-            <Image src="/logo-histologia.png" alt="Logo Cátedra Histología" fill priority className="object-contain" />
-          </div>
-
-          {/* Título Móvil Centrado */}
-          <div className="grow text-center nav-title-container transition-all duration-300 pr-2">
-            <h1 className="text-base font-bold leading-tight">CÁTEDRA DE HISTOLOGÍA</h1>
-            <hr className="border-t border-white/60 my-1 mx-auto w-3/4" />
-            <p className="text-[10px] sm:text-xs font-semibold text-white/90">CIENCIAS MORFOLÓGICAS</p>
-          </div>
-
-          {/* Acciones Móviles: Perfil & Hamburguesa */}
-          <div className="flex items-center gap-3 shrink-0">
-            {!user ? (
-              <Link href="/login" title="Iniciar Sesión" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
-                <UserIcon className="w-4 h-4" />
-              </Link>
-            ) : (
-              <Link href="/perfil" title="Mi Perfil" className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-800 border border-white/50 hover:bg-blue-900 transition-colors overflow-hidden">
+          {/* Botón de sesión */}
+          {!user ? (
+            <Link 
+              href="/login"
+              className="bg-white text-[#001f3f] font-semibold px-5 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm whitespace-nowrap"
+            >
+              Iniciar Sesión
+            </Link>
+          ) : (
+            <div className="relative group">
+              <button
+                title="Perfil de Usuario"
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-[#001f3f] hover:bg-[#00152e] border-2 border-white/50 transition-colors shadow-sm overflow-hidden"
+              >
                 {user.urlFotoPerfil ? (
                   <img src={user.urlFotoPerfil} alt="Perfil" className="w-full h-full object-cover" />
                 ) : (
-                  <span className="text-xs font-bold uppercase">{user.nombres.charAt(0)}</span>
+                  <span className="text-sm font-bold uppercase tracking-widest text-white">{user.nombres.charAt(0)}{user.apPaterno?.charAt(0)}</span>
                 )}
-              </Link>
-            )}
-
-            <button onClick={() => setIsOpen(!isOpen)} className="flex flex-col gap-1.25 p-2 shrink-0 z-50 relative" aria-label="Menu">
-              <span className={`w-6 h-0.5 bg-white transition-all duration-300 origin-center ${isOpen ? 'rotate-45 translate-y-1.75' : ''}`}></span>
-              <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isOpen ? 'opacity-0' : ''}`}></span>
-              <span className={`w-6 h-0.5 bg-white transition-all duration-300 origin-center ${isOpen ? '-rotate-45 -translate-y-1.75' : ''}`}></span>
-            </button>
-          </div>
-        </div>
-
-        {/* =========================================
-            MOBILE ACCORDION MENU
-        =========================================== */}
-        <div className={`lg:hidden overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-250 opacity-100' : 'max-h-0 opacity-0'}`}>
-          <ul className="flex flex-col list-none m-0 p-4 border-t border-white/20 mt-4 h-[calc(100vh-100px)] overflow-y-auto">
-            {navItems.map((item) => (
-              <li key={item.label} className="border-b border-white/10 last:border-0 relative">
-                <div className="flex justify-between items-center w-full">
-                  <Link
-                    href={item.href}
-                    className="block py-4 text-base font-semibold hover:text-blue-200 grow"
-                    onClick={(e) => {
-                      if (item.subItems) {
-                        e.preventDefault()
-                        setOpenSubmenu(openSubmenu === item.label ? null : item.label)
-                      } else {
-                        setIsOpen(false)
-                      }
-                    }}
-                  >
-                    {item.label}
-                  </Link>
-                  {item.subItems && (
-                    <button 
-                      className="p-4 mr-0 cursor-pointer"
-                      onClick={() => setOpenSubmenu(openSubmenu === item.label ? null : item.label)}
-                    >
-                      <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${openSubmenu === item.label ? 'rotate-180' : ''}`} />
-                    </button>
-                  )}
-                </div>
-
-                {/* Sub-Acoordion Mobile */}
-                {item.subItems && (
-                  <div className={`overflow-hidden transition-all duration-300 ease-in-out bg-black/10 rounded-lg ${openSubmenu === item.label ? 'max-h-125 opacity-100 mb-4' : 'max-h-0 opacity-0'}`}>
-                    <ul className="flex flex-col px-4 py-2">
-                      {item.subItems.map((sub) => (
-                        <Link
-                          key={sub.label}
-                          href={sub.href}
-                          className="block py-3 text-sm font-medium text-white hover:text-blue-200 border-b border-white/5 last:border-0"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          {sub.label}
-                        </Link>
-                      ))}
-                    </ul>
+              </button>
+              
+              {/* Dropdown flotante del perfil (Hover) */}
+              <div className="absolute top-full right-0 pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                <div className="bg-white text-slate-800 rounded-lg shadow-xl border border-slate-100 overflow-hidden flex flex-col py-1">
+                  <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50">
+                    <p className="text-sm font-bold text-slate-900 truncate">{user.nombres} {user.apPaterno}</p>
+                    <p className="text-xs text-slate-500 truncate">{user.email}</p>
                   </div>
-                )}
-              </li>
-            ))}
-
-            {/* Acción rápida inferior en móvil para Cerrar Sesión */}
-            {user && (
-              <li className="mt-4 pt-4 border-t border-white/10">
-                <button 
-                  onClick={() => {
-                    logout()
-                    setIsOpen(false)
-                  }} 
-                  className="flex items-center py-3 text-red-400 font-bold hover:text-red-300 w-full text-left transition-colors"
-                >
-                  <LogOut className="w-5 h-5 mr-3"/> Cerrar Sesión
-                </button>
-              </li>
-            )}
-          </ul>
+                  <Link href="/perfil" className="px-4 py-2.5 text-sm font-medium hover:bg-blue-50 transition-colors flex items-center gap-2 text-slate-700">
+                    <UserIcon className="w-4 h-4" /> Mi Perfil
+                  </Link>
+                  <button 
+                    onClick={() => {
+                      logout();
+                      setIsOpen(false);
+                    }}
+                    className="px-4 py-2.5 text-sm font-medium hover:bg-slate-100 text-[#001f3f] transition-colors flex items-center gap-2 text-left w-full"
+                  >
+                    <LogOut className="w-4 h-4" /> Cerrar Sesión
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
+        {/* ═══════════ HAMBURGUESA (Mobile) ═══════════ */}
+        <button 
+          onClick={() => setIsOpen(!isOpen)} 
+          className="md:hidden flex items-center justify-center w-10 h-10 text-white"
+          aria-label="Abrir menú"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {/* ═══════════════════════════════════════════════
+          MOBILE ACCORDION MENU
+      ═══════════════════════════════════════════════ */}
+      <div className={`md:hidden relative z-10 overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <ul className="flex flex-col list-none m-0 px-6 pb-6 border-t border-white/20 pt-4 overflow-y-auto">
+          {navItems.map((item) => (
+            <li key={item.label} className="border-b border-white/10 last:border-0">
+              <div className="flex justify-between items-center w-full">
+                <Link
+                  href={item.href}
+                  className="block py-4 text-base font-semibold text-white hover:text-gray-200 grow transition-colors"
+                  onClick={(e) => {
+                    if (item.subItems) {
+                      e.preventDefault()
+                      setOpenSubmenu(openSubmenu === item.label ? null : item.label)
+                    } else {
+                      setIsOpen(false)
+                    }
+                  }}
+                >
+                  {item.label}
+                </Link>
+                {item.subItems && (
+                  <button 
+                    className="p-4 cursor-pointer text-white"
+                    onClick={() => setOpenSubmenu(openSubmenu === item.label ? null : item.label)}
+                  >
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${openSubmenu === item.label ? 'rotate-180' : ''}`} />
+                  </button>
+                )}
+              </div>
+
+              {/* Sub-Accordion Mobile */}
+              {item.subItems && (
+                <div className={`overflow-hidden transition-all duration-300 ease-in-out bg-white/10 rounded-lg ${openSubmenu === item.label ? 'max-h-[500px] opacity-100 mb-4' : 'max-h-0 opacity-0'}`}>
+                  <ul className="flex flex-col px-4 py-2">
+                    {item.subItems.map((sub) => (
+                      <Link
+                        key={sub.label}
+                        href={sub.href}
+                        className="block py-3 text-sm font-medium text-white hover:text-gray-200 border-b border-white/5 last:border-0 transition-colors"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {sub.label}
+                      </Link>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+          ))}
+
+          {/* Botón de sesión en móvil */}
+          <li className="mt-6">
+            {!user ? (
+              <Link 
+                href="/login"
+                onClick={() => setIsOpen(false)}
+                className="block text-center bg-white text-[#001f3f] font-bold px-6 py-3 rounded-md hover:bg-gray-100 transition-colors text-sm"
+              >
+                Iniciar Sesión
+              </Link>
+            ) : (
+              <button 
+                onClick={() => {
+                  logout()
+                  setIsOpen(false)
+                }} 
+                className="flex items-center justify-center gap-2 py-3 text-white/80 font-bold hover:text-white w-full text-left transition-colors"
+              >
+                <LogOut className="w-5 h-5" /> Cerrar Sesión
+              </button>
+            )}
+          </li>
+        </ul>
       </div>
     </nav>
   )

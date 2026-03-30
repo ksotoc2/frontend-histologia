@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import Link from 'next/link'
 import { HeroCarousel } from '@/components/hero-carousel'
 import { ScrollReveal } from '@/components/scroll-reveal'
 import { BellRing, Calendar, Microscope, ArrowDownToLine, ChevronRight } from 'lucide-react'
@@ -40,21 +41,21 @@ const accesosRapidos = [
     title: "Avisos Importantes",
     text: "Consulte las fechas reprogramadas para el primer parcial de la materia y el inicio de rotaciones para el Grupo A.",
     tags: ["Histología I", "Parciales"],
-    button: "Ingresar",
+    href: "/estudiantes/avisos",
   },
   {
     icon: Calendar,
     title: "Cronograma Anual",
     text: "Descargue el calendario académico 2024 con fechas claves: Parciales (Mayo/Sept/Oct), Finales (Nov) y períodos de auxiliatura.",
     tags: ["Calendario", "UMSA"],
-    button: "Consultar",
+    href: "/informacion-academica#cronograma-anual",
   },
   {
     icon: Microscope,
     title: "Atlas Histológico",
     text: "Acceda a la galería de cortes microscópicos de alta resolución. Micrografías de Tejido Epitelial, Conectivo, Muscular y Nervioso.",
     tags: ["Microscopía", "Digital"],
-    button: "Explorar",
+    href: "/recursos-didacticos/atlas-histologico",
   },
 ]
 
@@ -74,45 +75,49 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 flex flex-col items-center pb-20">
+    <main className="min-h-screen bg-slate-50 flex flex-col items-center pb-10">
 
       {/* ═══════════════════════════════════════════
-          1. HERO CAROUSEL
+          1. HERO CAROUSEL (Full bleed, sin márgenes)
       ═══════════════════════════════════════════ */}
-      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-20">
-        <ScrollReveal direction="down" duration={0.8}>
-          <HeroCarousel images={carouselImages} />
-        </ScrollReveal>
+      <section className="w-full mb-8">
+        <HeroCarousel images={carouselImages} />
       </section>
 
       {/* ═══════════════════════════════════════════
-          2. ACCESOS RÁPIDOS (Cascada progresiva)
+          2. ACCESOS RÁPIDOS (Layout horizontal)
       ═══════════════════════════════════════════ */}
-      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 mb-8">
         <ScrollReveal>
-          <h2 className="text-2xl font-bold text-red-600 text-center mb-10 uppercase tracking-wider">
+          <h2 className="text-2xl font-bold text-[#001f3f] text-center mb-6 uppercase tracking-wider">
             Accesos Rápidos
           </h2>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {accesosRapidos.map((card, index) => (
             <ScrollReveal key={card.title} delay={index * 0.15} direction="up">
-              <div className={`bg-white rounded-2xl ${SHADOW_CARD} p-8 relative flex flex-col h-full border border-slate-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
-                <card.icon className="absolute top-6 right-6 w-8 h-8 text-red-500" strokeWidth={1.5} />
-                <h3 className="text-xl font-bold text-slate-900 mb-4 pr-12">{card.title}</h3>
-                <p className="text-slate-600 text-sm mb-6 grow leading-relaxed">
-                  {card.text}
-                </p>
-                <div className="flex gap-2 mb-8 flex-wrap">
-                  {card.tags.map((tag) => (
-                    <span key={tag} className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-md">{tag}</span>
-                  ))}
+              <Link href={card.href} className="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 p-6 flex flex-row gap-5 items-start transition-all duration-300 hover:-translate-y-1 hover:shadow-xl h-full cursor-pointer group">
+                
+                {/* Área Izquierda: Icono */}
+                <div className="shrink-0 w-12 h-12 rounded-lg bg-[#001f3f]/10 flex items-center justify-center transition-colors group-hover:bg-[#001f3f]/20">
+                  <card.icon className="w-6 h-6 text-[#001f3f]" strokeWidth={1.8} />
                 </div>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg w-fit transition-colors">
-                  {card.button}
-                </button>
-              </div>
+
+                {/* Área Derecha: Contenido */}
+                <div className="flex flex-col gap-2 min-w-0">
+                  <h3 className="text-base font-bold text-slate-900 leading-snug group-hover:text-[#001f3f] transition-colors">{card.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">
+                    {card.text}
+                  </p>
+                  <div className="flex gap-1.5 flex-wrap mt-1">
+                    {card.tags.map((tag) => (
+                      <span key={tag} className="px-2 py-0.5 bg-slate-100 text-slate-500 text-[11px] font-semibold rounded">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+
+              </Link>
             </ScrollReveal>
           ))}
         </div>
@@ -122,12 +127,12 @@ export default function Home() {
           3. SECCIÓN INFERIOR (Split Layout)
       ═══════════════════════════════════════════ */}
       <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-0 lg:divide-x-2 lg:divide-red-500">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 lg:divide-x-2 lg:divide-[#001f3f]/30">
 
           {/* Lado Izquierdo: Últimas Novedades */}
           <div className="lg:pr-16 flex flex-col">
             <ScrollReveal direction="left">
-              <h2 className="text-xl font-bold text-red-600 text-center mb-10 uppercase tracking-widest">
+              <h2 className="text-xl font-bold text-[#001f3f] text-center mb-6 uppercase tracking-widest">
                 Últimas Novedades
               </h2>
             </ScrollReveal>
@@ -166,16 +171,16 @@ export default function Home() {
           {/* Lado Derecho: Conoce la Cátedra */}
           <div className="lg:pl-16 flex flex-col">
             <ScrollReveal direction="right">
-              <h2 className="text-xl font-bold text-red-600 text-center mb-10 uppercase tracking-widest">
+              <h2 className="text-xl font-bold text-[#001f3f] text-center mb-6 uppercase tracking-widest">
                 Conoce La Cátedra
               </h2>
             </ScrollReveal>
 
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-5">
 
               {/* Tarjeta Jefatura */}
               <ScrollReveal delay={0.1} direction="right">
-                <div className={`bg-white border-2 border-blue-600 rounded-xl p-8 relative flex flex-col ${SHADOW_CARD} transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
+                <div className={`bg-white border-2 border-[#001f3f]/30 rounded-xl p-6 relative flex flex-col ${SHADOW_CARD} transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-lg font-bold text-slate-900 tracking-wide">JEFATURA DE CÁTEDRA</h3>
                     <button className="text-slate-400 hover:text-slate-600 transition-colors">
@@ -186,7 +191,7 @@ export default function Home() {
                     Bienvenida y visión de la gestión académica actual a cargo de la Jefatura del Departamento de Ciencias Morfológicas.
                   </p>
                   <div className="flex justify-end mt-auto">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-6 rounded-lg transition-colors flex items-center gap-2">
+                    <button className="bg-[#001f3f] hover:bg-[#00152e] text-white text-sm font-medium py-2 px-6 rounded-lg transition-colors flex items-center gap-2">
                       Ver Más <ChevronRight className="w-4 h-4 -mr-1" />
                     </button>
                   </div>
@@ -195,7 +200,7 @@ export default function Home() {
 
               {/* Tarjeta Historia */}
               <ScrollReveal delay={0.25} direction="right">
-                <div className={`bg-white border-2 border-blue-600 rounded-xl p-8 relative flex flex-col ${SHADOW_CARD} transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
+                <div className={`bg-white border-2 border-[#001f3f]/30 rounded-xl p-6 relative flex flex-col ${SHADOW_CARD} transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-lg font-bold text-slate-900 tracking-wide">HISTORIA DE LA CÁTEDRA</h3>
                     <button className="text-slate-400 hover:text-slate-600 transition-colors">
@@ -206,7 +211,7 @@ export default function Home() {
                     Línea de tiempo con los hitos fundamentales y evolución del estudio de la Histología en la Facultad de Medicina desde su fundación.
                   </p>
                   <div className="flex justify-end mt-auto">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-6 rounded-lg transition-colors flex items-center gap-2">
+                    <button className="bg-[#001f3f] hover:bg-[#00152e] text-white text-sm font-medium py-2 px-6 rounded-lg transition-colors flex items-center gap-2">
                       Ver Más <ChevronRight className="w-4 h-4 -mr-1" />
                     </button>
                   </div>

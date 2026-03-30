@@ -3,64 +3,95 @@ import path from 'path'
 import Link from 'next/link'
 import { HeroCarousel } from '@/components/hero-carousel'
 import { ScrollReveal } from '@/components/scroll-reveal'
-import { BellRing, Calendar, Microscope, ArrowDownToLine, ChevronRight } from 'lucide-react'
+import {
+  BellRing,
+  Calendar,
+  Microscope,
+  Clock,
+  Users,
+  BookOpen,
+  ChevronRight,
+  Landmark,
+} from 'lucide-react'
 
-const SHADOW_CARD = 'shadow-[0_25px_60px_rgba(0,0,0,0.08),0_8px_20px_rgba(0,0,0,0.04)]'
-
-// Mock Data
-const Novedades = [
-  {
-    id: 1,
-    time: "Ayer",
-    timeTag: "16",
-    title: "Entrega de Guías de Práctica",
-    text: "Entrega revisada de Guías de Práctica 3 resueltas correspondientes al Grupo B.",
-    downloads: "2.5M Downloads"
-  },
-  {
-    id: 2,
-    time: "Hace 3 días",
-    timeTag: "14",
-    title: "Publicación de Notas",
-    text: "Se han liberado las calificaciones oficiales del Segundo Parcial Teórico en el sistema.",
-    downloads: "2.5M Downloads"
-  },
-  {
-    id: 3,
-    time: "Hace 1 semana",
-    timeTag: "13",
-    title: "Admitidos para Auxiliatura",
-    text: "Lista oficial de admitidos para las funciones de Auxiliatura de Cátedra de este semestre.",
-    downloads: "2.5M Downloads"
-  }
-]
+// ═══════════════════════════════════════════════
+// DATOS
+// ═══════════════════════════════════════════════
 
 const accesosRapidos = [
   {
     icon: BellRing,
-    title: "Avisos Importantes",
-    text: "Consulte las fechas reprogramadas para el primer parcial de la materia y el inicio de rotaciones para el Grupo A.",
-    tags: ["Histología I", "Parciales"],
-    href: "/estudiantes/avisos",
+    title: 'Avisos Importantes',
+    text: 'Consulte las fechas reprogramadas para el primer parcial y el inicio de rotaciones para el Grupo A.',
+    tags: ['Histología I', 'Parciales'],
+    href: '/estudiantes/avisos',
   },
   {
     icon: Calendar,
-    title: "Cronograma Anual",
-    text: "Descargue el calendario académico 2024 con fechas claves: Parciales (Mayo/Sept/Oct), Finales (Nov) y períodos de auxiliatura.",
-    tags: ["Calendario", "UMSA"],
-    href: "/informacion-academica#cronograma-anual",
+    title: 'Cronograma Anual',
+    text: 'Descargue el calendario académico 2024 con fechas claves: Parciales, Finales y períodos de auxiliatura.',
+    tags: ['Calendario', 'UMSA'],
+    href: '/informacion-academica#cronograma-anual',
   },
   {
     icon: Microscope,
-    title: "Atlas Histológico",
-    text: "Acceda a la galería de cortes microscópicos de alta resolución. Micrografías de Tejido Epitelial, Conectivo, Muscular y Nervioso.",
-    tags: ["Microscopía", "Digital"],
-    href: "/recursos-didacticos/atlas-histologico",
+    title: 'Atlas Histológico',
+    text: 'Acceda a la galería de cortes microscópicos de alta resolución. Tejido Epitelial, Conectivo, Muscular y Nervioso.',
+    tags: ['Microscopía', 'Digital'],
+    href: '/recursos-didacticos/atlas-histologico',
   },
 ]
 
+const novedades = [
+  {
+    id: 1,
+    date: '28 Mar',
+    title: 'Entrega de Guías de Práctica',
+    text: 'Entrega revisada de Guías de Práctica 3 resueltas correspondientes al Grupo B.',
+    tag: 'Prácticas',
+  },
+  {
+    id: 2,
+    date: '25 Mar',
+    title: 'Publicación de Notas',
+    text: 'Se han liberado las calificaciones oficiales del Segundo Parcial Teórico en el sistema.',
+    tag: 'Evaluación',
+  },
+  {
+    id: 3,
+    date: '20 Mar',
+    title: 'Admitidos para Auxiliatura',
+    text: 'Lista oficial de admitidos para las funciones de Auxiliatura de Cátedra de este semestre.',
+    tag: 'Auxiliatura',
+  },
+]
+
+const conoceCatedra = [
+  {
+    icon: Landmark,
+    title: 'Jefatura de Cátedra',
+    text: 'Bienvenida y visión de la gestión académica actual a cargo de la Jefatura del Departamento.',
+    href: '/la-catedra#jefatura',
+  },
+  {
+    icon: Users,
+    title: 'Plantel Docente',
+    text: 'Conoce a los profesionales de la salud encargados de guiarte en el descubrimiento microscópico.',
+    href: '/la-catedra/plantel-docente',
+  },
+  {
+    icon: BookOpen,
+    title: 'Historia de la Cátedra',
+    text: 'Hitos fundamentales y evolución del estudio de la Histología en la Facultad de Medicina.',
+    href: '/la-catedra#historia',
+  },
+]
+
+// ═══════════════════════════════════════════════
+// PÁGINA
+// ═══════════════════════════════════════════════
+
 export default function Home() {
-  // Lógica Server-Side para leer las imágenes dinámicamente del directorio local
   let carouselImages: string[] = []
   try {
     const imagesDirectory = path.join(process.cwd(), 'public', 'images', 'carousel')
@@ -71,52 +102,67 @@ export default function Home() {
         .map((name) => `/images/carousel/${name}`)
     }
   } catch (error) {
-    console.error("No se pudo leer el directorio del carrusel:", error)
+    console.error('No se pudo leer el directorio del carrusel:', error)
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 flex flex-col items-center pb-10">
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 flex flex-col items-center">
 
       {/* ═══════════════════════════════════════════
-          1. HERO CAROUSEL (Full bleed, sin márgenes)
+          1. HERO CAROUSEL — INTACTO
       ═══════════════════════════════════════════ */}
-      <section className="w-full mb-8">
+      <section className="w-full">
         <HeroCarousel images={carouselImages} />
       </section>
 
       {/* ═══════════════════════════════════════════
-          2. ACCESOS RÁPIDOS (Layout horizontal)
+          2. ACCESOS RÁPIDOS
       ═══════════════════════════════════════════ */}
-      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 mb-8">
+      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <ScrollReveal>
-          <h2 className="text-2xl font-bold text-[#001f3f] text-center mb-6 uppercase tracking-wider">
-            Accesos Rápidos
-          </h2>
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[#001f3f] uppercase tracking-widest">
+              Accesos Rápidos
+            </h2>
+            <div className="mt-3 mx-auto w-16 h-1 bg-[#4da3ff] rounded-full" />
+          </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {accesosRapidos.map((card, index) => (
             <ScrollReveal key={card.title} delay={index * 0.15} direction="up">
-              <Link href={card.href} className="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 p-6 flex flex-row gap-5 items-start transition-all duration-300 hover:-translate-y-1 hover:shadow-xl h-full cursor-pointer group">
-                
-                {/* Área Izquierda: Icono */}
-                <div className="shrink-0 w-12 h-12 rounded-lg bg-[#001f3f]/10 flex items-center justify-center transition-colors group-hover:bg-[#001f3f]/20">
-                  <card.icon className="w-6 h-6 text-[#001f3f]" strokeWidth={1.8} />
+              <Link
+                href={card.href}
+                className="group relative bg-white rounded-2xl p-7 flex flex-row gap-5 items-start h-full
+                           border border-slate-100
+                           shadow-lg hover:shadow-2xl
+                           transition-all duration-500 ease-out
+                           hover:-translate-y-2 hover:scale-[1.02]"
+              >
+                {/* Icono */}
+                <div className="shrink-0 w-14 h-14 rounded-xl bg-[#001f3f]/8 flex items-center justify-center transition-all duration-500 group-hover:bg-[#001f3f] group-hover:shadow-lg group-hover:shadow-[#001f3f]/25">
+                  <card.icon className="w-6 h-6 text-[#001f3f] transition-colors duration-500 group-hover:text-white" strokeWidth={1.8} />
                 </div>
 
-                {/* Área Derecha: Contenido */}
+                {/* Contenido */}
                 <div className="flex flex-col gap-2 min-w-0">
-                  <h3 className="text-base font-bold text-slate-900 leading-snug group-hover:text-[#001f3f] transition-colors">{card.title}</h3>
+                  <h3 className="text-base font-bold text-slate-900 leading-snug group-hover:text-[#001f3f] transition-colors duration-300">
+                    {card.title}
+                  </h3>
                   <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">
                     {card.text}
                   </p>
                   <div className="flex gap-1.5 flex-wrap mt-1">
                     {card.tags.map((tag) => (
-                      <span key={tag} className="px-2 py-0.5 bg-slate-100 text-slate-500 text-[11px] font-semibold rounded">{tag}</span>
+                      <span key={tag} className="px-2.5 py-0.5 bg-[#001f3f]/5 text-[#001f3f] text-[11px] font-bold rounded-md">
+                        {tag}
+                      </span>
                     ))}
                   </div>
                 </div>
 
+                {/* Flecha sutil */}
+                <ChevronRight className="absolute top-1/2 right-5 -translate-y-1/2 w-5 h-5 text-slate-200 transition-all duration-300 group-hover:text-[#001f3f] group-hover:translate-x-1" />
               </Link>
             </ScrollReveal>
           ))}
@@ -124,103 +170,116 @@ export default function Home() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          3. SECCIÓN INFERIOR (Split Layout)
+          3. ÚLTIMAS NOVEDADES
       ═══════════════════════════════════════════ */}
-      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 lg:divide-x-2 lg:divide-[#001f3f]/30">
+      <section className="w-full bg-slate-100/80 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Lado Izquierdo: Últimas Novedades */}
-          <div className="lg:pr-16 flex flex-col">
-            <ScrollReveal direction="left">
-              <h2 className="text-xl font-bold text-[#001f3f] text-center mb-6 uppercase tracking-widest">
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-[#001f3f] uppercase tracking-widest">
                 Últimas Novedades
               </h2>
-            </ScrollReveal>
-
-            <div className="flex flex-col gap-6">
-              {Novedades.map((novedad, index) => (
-                <ScrollReveal key={novedad.id} delay={index * 0.12} direction="left">
-                  <div className="relative flex items-start group">
-                    {/* Timeline Node */}
-                    <div className="absolute left-[-24px] md:left-[-32px] top-6 w-12 md:w-16 h-12 md:h-16 bg-slate-100 rounded-full flex items-center justify-center -translate-x-1/2 shadow-inner border border-slate-200 z-10 transition-transform group-hover:scale-110">
-                      <span className="text-xs font-bold text-slate-500">{novedad.timeTag}</span>
-                    </div>
-
-                    {/* Card Content */}
-                    <div className={`ml-10 md:ml-12 bg-white p-6 rounded-xl ${SHADOW_CARD} border border-slate-100 w-full relative transition-all duration-500 hover:-translate-y-0.5 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
-                      <div className="absolute left-[-6px] top-10 w-3 h-3 bg-white border-l border-t border-slate-100 transform -rotate-45"></div>
-
-                      <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-1 flex items-center gap-2">
-                        {novedad.time} <span className="text-slate-300">|</span> <span className="text-blue-700">{novedad.title}</span>
-                      </h4>
-                      <p className="text-slate-500 text-sm mt-2 leading-relaxed">
-                        {novedad.text}
-                      </p>
-
-                      <div className="mt-4 flex items-center gap-2 text-slate-400 text-xs">
-                        <ArrowDownToLine className="w-3.5 h-3.5" />
-                        <span>{novedad.downloads}</span>
-                      </div>
-                    </div>
-                  </div>
-                </ScrollReveal>
-              ))}
+              <div className="mt-3 mx-auto w-16 h-1 bg-[#4da3ff] rounded-full" />
             </div>
-          </div>
+          </ScrollReveal>
 
-          {/* Lado Derecho: Conoce la Cátedra */}
-          <div className="lg:pl-16 flex flex-col">
-            <ScrollReveal direction="right">
-              <h2 className="text-xl font-bold text-[#001f3f] text-center mb-6 uppercase tracking-widest">
-                Conoce La Cátedra
-              </h2>
-            </ScrollReveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {novedades.map((novedad, index) => (
+              <ScrollReveal key={novedad.id} delay={index * 0.15} direction="up">
+                <div className="group bg-white border border-slate-200/80 rounded-2xl p-7 flex flex-col h-full
+                                shadow-lg
+                                transition-all duration-500 ease-out
+                                hover:-translate-y-2 hover:shadow-2xl">
 
-            <div className="flex flex-col gap-5">
-
-              {/* Tarjeta Jefatura */}
-              <ScrollReveal delay={0.1} direction="right">
-                <div className={`bg-white border-2 border-[#001f3f]/30 rounded-xl p-6 relative flex flex-col ${SHADOW_CARD} transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-lg font-bold text-slate-900 tracking-wide">JEFATURA DE CÁTEDRA</h3>
-                    <button className="text-slate-400 hover:text-slate-600 transition-colors">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    </button>
+                  {/* Badge fecha */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#001f3f]/8 text-[#001f3f]">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span className="text-xs font-bold">{novedad.date}</span>
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                      {novedad.tag}
+                    </span>
                   </div>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                    Bienvenida y visión de la gestión académica actual a cargo de la Jefatura del Departamento de Ciencias Morfológicas.
+
+                  {/* Título */}
+                  <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-[#001f3f] transition-colors duration-300">
+                    {novedad.title}
+                  </h3>
+
+                  {/* Descripción */}
+                  <p className="text-slate-500 text-sm leading-relaxed grow">
+                    {novedad.text}
                   </p>
-                  <div className="flex justify-end mt-auto">
-                    <button className="bg-[#001f3f] hover:bg-[#00152e] text-white text-sm font-medium py-2 px-6 rounded-lg transition-colors flex items-center gap-2">
-                      Ver Más <ChevronRight className="w-4 h-4 -mr-1" />
-                    </button>
+
+                  {/* CTA */}
+                  <div className="mt-5 pt-4 border-t border-slate-100">
+                    <span className="text-[#001f3f] text-sm font-semibold flex items-center gap-1.5 group-hover:gap-3 transition-all duration-300">
+                      Leer más <ChevronRight className="w-4 h-4" />
+                    </span>
                   </div>
                 </div>
               </ScrollReveal>
-
-              {/* Tarjeta Historia */}
-              <ScrollReveal delay={0.25} direction="right">
-                <div className={`bg-white border-2 border-[#001f3f]/30 rounded-xl p-6 relative flex flex-col ${SHADOW_CARD} transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-lg font-bold text-slate-900 tracking-wide">HISTORIA DE LA CÁTEDRA</h3>
-                    <button className="text-slate-400 hover:text-slate-600 transition-colors">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    </button>
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                    Línea de tiempo con los hitos fundamentales y evolución del estudio de la Histología en la Facultad de Medicina desde su fundación.
-                  </p>
-                  <div className="flex justify-end mt-auto">
-                    <button className="bg-[#001f3f] hover:bg-[#00152e] text-white text-sm font-medium py-2 px-6 rounded-lg transition-colors flex items-center gap-2">
-                      Ver Más <ChevronRight className="w-4 h-4 -mr-1" />
-                    </button>
-                  </div>
-                </div>
-              </ScrollReveal>
-
-            </div>
+            ))}
           </div>
+        </div>
+      </section>
 
+      {/* ═══════════════════════════════════════════
+          4. CONOCE LA CÁTEDRA
+      ═══════════════════════════════════════════ */}
+      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+        <ScrollReveal>
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[#001f3f] uppercase tracking-widest">
+              Conoce La Cátedra
+            </h2>
+            <div className="mt-3 mx-auto w-16 h-1 bg-[#4da3ff] rounded-full" />
+            <p className="mt-4 text-slate-500 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+              Descubre nuestra misión, historia y el equipo docente que forma a los futuros profesionales de la salud.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {conoceCatedra.map((item, index) => (
+            <ScrollReveal key={item.title} delay={index * 0.15} direction="up">
+              <Link
+                href={item.href}
+                className="group relative bg-white rounded-2xl p-8 flex flex-col items-center text-center h-full
+                           border border-slate-100
+                           shadow-lg hover:shadow-2xl
+                           transition-all duration-500 ease-out
+                           hover:-translate-y-2 hover:scale-[1.02]"
+              >
+                {/* Icono circular */}
+                <div className="w-16 h-16 rounded-full bg-[#001f3f]/8 flex items-center justify-center mb-5
+                                transition-all duration-500
+                                group-hover:bg-[#001f3f] group-hover:shadow-lg group-hover:shadow-[#001f3f]/25 group-hover:scale-110">
+                  <item.icon className="w-7 h-7 text-[#001f3f] transition-colors duration-500 group-hover:text-white" strokeWidth={1.6} />
+                </div>
+
+                {/* Título */}
+                <h3 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-[#001f3f] transition-colors duration-300">
+                  {item.title}
+                </h3>
+
+                {/* Descripción */}
+                <p className="text-slate-500 text-sm leading-relaxed grow">
+                  {item.text}
+                </p>
+
+                {/* Enlace */}
+                <div className="mt-5 pt-4 border-t border-slate-100 w-full">
+                  <span className="text-[#001f3f] text-sm font-semibold flex items-center justify-center gap-1.5 group-hover:gap-3 transition-all duration-300">
+                    Descubrir <ChevronRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </Link>
+            </ScrollReveal>
+          ))}
         </div>
       </section>
     </main>

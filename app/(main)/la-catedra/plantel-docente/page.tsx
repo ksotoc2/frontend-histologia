@@ -1,14 +1,15 @@
 import { ScrollReveal } from '@/components/scroll-reveal'
-
-const SHADOW_CARD = 'shadow-[0_25px_60px_rgba(0,0,0,0.08),0_8px_20px_rgba(0,0,0,0.04)]'
+import { Mail } from 'lucide-react'
 
 const docentes = [
-  { id: 1, name: "Dr. Roberto Arce", specialty: "Jefe de Cátedra", bio: "Especialista con 20 años de experiencia." },
-  { id: 2, name: "Dra. Maria López", specialty: "Docente Titular", bio: "Investigadora en Histología del Sistema Nervioso." },
-  { id: 3, name: "Dr. Carlos Fernández", specialty: "Docente Titular", bio: "Autor de prestigiosos artículos académicos en Anatomía Microscópica." },
-  { id: 4, name: "Dra. Lucía Méndez", specialty: "Docente Asistente", bio: "Apasionada por la enseñanza y laboratorio de tejidos." },
-  { id: 5, name: "Dr. Simón Pérez", specialty: "Docente Asistente", bio: "Coordinador de las guías de práctica y recursos visuales." },
-  { id: 6, name: "Dra. Ana Jiménez", specialty: "Investigadora", bio: "Enfocada en el estudio celular del tejido conectivo." },
+  { id: 1, name: 'Dr. Roberto Arce', specialty: 'Jefe de Cátedra', bio: 'Especialista con 20 años de experiencia en histología clínica y docencia universitaria.' },
+  { id: 2, name: 'Dra. María López', specialty: 'Docente Titular', bio: 'Investigadora en Histología del Sistema Nervioso Central y periférico.' },
+  { id: 3, name: 'Dr. Carlos Fernández', specialty: 'Docente Titular', bio: 'Autor de artículos académicos en Anatomía Microscópica y Embriología.' },
+  { id: 4, name: 'Dra. Lucía Méndez', specialty: 'Docente Asistente', bio: 'Apasionada por la enseñanza y el laboratorio de tejidos conectivos.' },
+  { id: 5, name: 'Dr. Simón Pérez', specialty: 'Docente Asistente', bio: 'Coordinador de guías de práctica y recursos visuales de microscopía.' },
+  { id: 6, name: 'Dra. Ana Jiménez', specialty: 'Investigadora', bio: 'Enfocada en el estudio celular del tejido conectivo y muscular.' },
+  { id: 7, name: 'Dr. Juan Quispe', specialty: 'Docente Titular', bio: 'Especialista en Histología del aparato digestivo y glándulas anexas.' },
+  { id: 8, name: 'Dra. Patricia Soliz', specialty: 'Docente Asistente', bio: 'Coordinadora de prácticas de laboratorio y auxiliaturas de cátedra.' },
 ]
 
 export const metadata = {
@@ -17,44 +18,82 @@ export const metadata = {
 
 export default function PlantelDocentePage() {
   return (
-    <div className="min-h-screen bg-slate-50 py-16 px-4 md:px-12">
-      <div className="max-w-6xl mx-auto space-y-12">
-        
-        <ScrollReveal direction="down" duration={0.7}>
-          <header className="text-center space-y-4">
-            <h1 className="text-3xl lg:text-4xl font-extrabold text-[#001f3f] uppercase tracking-widest drop-shadow-sm">Plantel Docente</h1>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Conoce a los profesionales de la salud encargados de dictar la cátedra y guiarte en el descubrimiento microscópico funcional.
-            </p>
-          </header>
-        </ScrollReveal>
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {docentes.map((docente, index) => (
-            <ScrollReveal key={docente.id} delay={index * 0.12} direction="up">
-              <section 
-                className={`group bg-white rounded-2xl ${SHADOW_CARD} border border-slate-100 overflow-hidden transition-all duration-500 transform hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}
-              >
-                <div className="h-32 bg-blue-100 flex justify-center items-end pb-4 transition-colors group-hover:bg-blue-600">
-                  {/* Profile Avatar Placeholder */}
-                  <div className="w-20 h-20 bg-white rounded-full translate-y-1/2 shadow-lg flex items-center justify-center border-4 border-white text-blue-600 font-bold text-2xl group-hover:text-blue-900">
-                    {docente.name.charAt(0)}{docente.name.split(' ')[1]?.charAt(0)}
+      {/* ═══════════════════════════════════════════
+          HEADER
+      ═══════════════════════════════════════════ */}
+      <div className="pt-16 pb-12 text-center px-4">
+        <ScrollReveal direction="down" duration={0.7}>
+          <h1 className="text-3xl lg:text-4xl font-extrabold text-[#001f3f] uppercase tracking-widest">
+            Plantel Docente
+          </h1>
+          <div className="mt-4 mx-auto w-16 h-1 bg-[#4da3ff] rounded-full" />
+          <p className="mt-5 text-slate-500 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+            Conoce a los profesionales de la salud encargados de dictar la cátedra y guiarte
+            en el descubrimiento microscópico funcional de los tejidos humanos.
+          </p>
+        </ScrollReveal>
+      </div>
+
+      {/* ═══════════════════════════════════════════
+          GRID DE DOCENTES
+      ═══════════════════════════════════════════ */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {docentes.map((docente, index) => {
+            const initials = docente.name
+              .split(' ')
+              .filter((_, i) => i === 0 || i === docente.name.split(' ').length - 1)
+              .map((w) => w.charAt(0))
+              .join('')
+
+            return (
+              <ScrollReveal key={docente.id} delay={index * 0.08} direction="up">
+                <div className="group bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden h-full
+                                transition-all duration-500 ease-out
+                                hover:-translate-y-2 hover:shadow-2xl hover:scale-[1.02]">
+
+                  {/* Banner superior */}
+                  <div className="h-28 bg-gradient-to-br from-[#001f3f] to-[#003366] relative flex justify-center">
+                    {/* Avatar */}
+                    <div className="absolute -bottom-8 w-16 h-16 rounded-full bg-white shadow-lg border-4 border-white
+                                    flex items-center justify-center
+                                    transition-all duration-500 group-hover:scale-110 group-hover:shadow-xl">
+                      <span className="text-[#001f3f] font-extrabold text-lg select-none">{initials}</span>
+                    </div>
+                  </div>
+
+                  {/* Contenido */}
+                  <div className="pt-12 pb-7 px-6 text-center flex flex-col items-center">
+                    {/* Nombre */}
+                    <h3 className="text-base font-bold text-[#001f3f] mb-1 group-hover:text-[#003366] transition-colors">
+                      {docente.name}
+                    </h3>
+
+                    {/* Especialidad */}
+                    <span className="inline-block px-3 py-0.5 bg-[#001f3f]/8 text-[#001f3f] text-[10px] font-bold rounded-full uppercase tracking-wider mb-4">
+                      {docente.specialty}
+                    </span>
+
+                    {/* Bio */}
+                    <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 mb-5">
+                      {docente.bio}
+                    </p>
+
+                    {/* CTA sutil */}
+                    <div className="pt-4 border-t border-slate-100 w-full flex items-center justify-center gap-1.5 text-[#001f3f]/60 text-xs font-semibold
+                                    group-hover:text-[#001f3f] transition-colors duration-300">
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>Contactar</span>
+                    </div>
                   </div>
                 </div>
-                <div className="pt-14 pb-8 px-6 text-center space-y-2">
-                  <h3 className="text-xl font-bold text-slate-800">{docente.name}</h3>
-                  <span className="inline-block px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold rounded-full uppercase tracking-wider">
-                    {docente.specialty}
-                  </span>
-                  <p className="text-sm text-slate-500 pt-4 leading-relaxed line-clamp-3">
-                    {docente.bio}
-                  </p>
-                </div>
-              </section>
-            </ScrollReveal>
-          ))}
+              </ScrollReveal>
+            )
+          })}
         </div>
       </div>
-    </div>
+    </main>
   )
 }

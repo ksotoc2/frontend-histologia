@@ -1,163 +1,319 @@
-import React from 'react'
+'use client'
+
 import { ScrollReveal } from '@/components/scroll-reveal'
+import {
+  GraduationCap,
+  ClipboardCheck,
+  BookOpen,
+  CalendarDays,
+  FlaskConical,
+  Microscope,
+  BookMarked,
+} from 'lucide-react'
 
-export const metadata = {
-  title: 'Información Académica - Histología',
-}
+// ═══════════════════════════════════════════════
+// DATOS
+// ═══════════════════════════════════════════════
 
-const SHADOW_CARD = 'shadow-[0_25px_60px_rgba(0,0,0,0.08),0_8px_20px_rgba(0,0,0,0.04)]'
+const sidebarLinks = [
+  { id: 'plan-estudios', label: 'Plan de Estudios', icon: GraduationCap },
+  { id: 'evaluacion', label: 'Evaluación', icon: ClipboardCheck },
+  { id: 'bibliografia', label: 'Bibliografía', icon: BookOpen },
+  { id: 'cronograma', label: 'Cronograma', icon: CalendarDays },
+]
+
+const planGeneral = [
+  { title: 'Biología Celular y Técnicas Histológicas', desc: 'Fundamentos celulares y métodos de preparación tisular.' },
+  { title: 'Tejido Epitelial y Glandular', desc: 'Clasificación, funciones secretoras y de revestimiento.' },
+  { title: 'Tejido Conectivo y Adiposo', desc: 'Componentes fibrilares, células y matriz extracelular.' },
+  { title: 'Tejido Cartilaginoso y Óseo', desc: 'Soporte estructural, osificación y remodelación.' },
+  { title: 'Tejido Sanguíneo y Hematopoyesis', desc: 'Elementos formes, coagulación y formación celular.' },
+  { title: 'Tejido Muscular y Nervioso', desc: 'Contracción, sinapsis y conducción nerviosa.' },
+]
+
+const planEspecial = [
+  { title: 'Aparato Cardiovascular e Inmunitario', desc: 'Histología del corazón, vasos y órganos linfoides.' },
+  { title: 'Aparato Digestivo y Glándulas Anexas', desc: 'Tubo digestivo, hígado, páncreas y vesícula biliar.' },
+  { title: 'Aparato Respiratorio y Urinario', desc: 'Vías aéreas, alvéolos, riñón y tracto urinario.' },
+  { title: 'Sistema Endocrino', desc: 'Hipófisis, tiroides, suprarrenales y glándulas principales.' },
+  { title: 'Aparato Reproductor Femenino', desc: 'Ovario, útero, ciclo menstrual y glándula mamaria.' },
+  { title: 'Aparato Reproductor Masculino', desc: 'Testículo, espermatogénesis y glándulas accesorias.' },
+]
 
 const evaluaciones = [
-  { label: 'Primer Examen Parcial Teórico', value: '20%' },
-  { label: 'Segundo Examen Parcial Teórico', value: '20%' },
-  { label: 'Tercer Examen Parcial Teórico', value: '20%' },
-  { label: 'Examen Final (Toda la Materia)', value: '20%' },
-  { label: 'Evaluación Práctica (Laminario/Microscopía)', value: '20%' },
+  { label: 'Primer Examen Parcial Teórico', pct: 20 },
+  { label: 'Segundo Examen Parcial Teórico', pct: 20 },
+  { label: 'Tercer Examen Parcial Teórico', pct: 20 },
+  { label: 'Examen Final (Toda la Materia)', pct: 20 },
+  { label: 'Evaluación Práctica (Laminario)', pct: 20 },
 ]
 
 const bibliografias = [
-  { label: 'Ross Histología: Texto y Atlas Analítico', value: 'W. Pawlina (8va Ed.)' },
-  { label: 'Junqueira Histología Básica', value: 'A. Mescher (15va Ed.)' },
-  { label: 'Gartner Texto Atlas de Histología', value: 'L. Gartner (4ta Ed.)' },
-  { label: 'Stevens & Lowe Histología Humana', value: 'J. Lowe (5ta Ed.)' },
-  { label: 'Di Fiore Atlas de Histología Normal', value: 'V. Eroschenko (13va Ed.)' },
+  { title: 'Ross Histología: Texto y Atlas', author: 'W. Pawlina', edition: '8va Ed.' },
+  { title: 'Junqueira Histología Básica', author: 'A. Mescher', edition: '15va Ed.' },
+  { title: 'Gartner Texto Atlas de Histología', author: 'L. Gartner', edition: '4ta Ed.' },
+  { title: 'Stevens & Lowe Histología Humana', author: 'J. Lowe', edition: '5ta Ed.' },
+  { title: 'Di Fiore Atlas de Histología Normal', author: 'V. Eroschenko', edition: '13va Ed.' },
 ]
 
 const cronograma = [
-  { label: 'Inicio de Clases Magistrales (Teóricas)', value: '05 de Febrero, 2024' },
-  { label: 'Primer Examen Parcial', value: '15 de Mayo, 2024' },
-  { label: 'Segundo Examen Parcial', value: '14 de Agosto, 2024' },
-  { label: 'Tercer Examen Parcial', value: '23 de Octubre, 2024' },
-  { label: 'Exámenes Finales Ordinarios', value: 'Noviembre, 2024' },
-  { label: 'Receso Académico de Invierno', value: 'Julio, 2024' },
+  { date: '05 Feb', label: 'Inicio de Clases Magistrales (Teóricas)', year: '2024' },
+  { date: '15 May', label: 'Primer Examen Parcial', year: '2024' },
+  { date: 'Jul', label: 'Receso Académico de Invierno', year: '2024' },
+  { date: '14 Ago', label: 'Segundo Examen Parcial', year: '2024' },
+  { date: '23 Oct', label: 'Tercer Examen Parcial', year: '2024' },
+  { date: 'Nov', label: 'Exámenes Finales Ordinarios', year: '2024' },
 ]
+
+// ═══════════════════════════════════════════════
+// PÁGINA
+// ═══════════════════════════════════════════════
 
 export default function InformacionAcademicaPage() {
   return (
-    <main className="min-h-screen bg-white py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-      
-      {/* TÍTULO PRINCIPAL */}
-      <ScrollReveal direction="down" duration={0.7}>
-        <h1 className="text-3xl lg:text-4xl font-extrabold text-[#001f3f] text-center mb-16 uppercase tracking-widest drop-shadow-sm">
-          Información Académica
-        </h1>
-      </ScrollReveal>
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
 
-      <div className="w-full max-w-5xl space-y-24">
-        
-        {/* ═══════════════════════════════════════════
-            SECCIÓN: PLAN DE ESTUDIOS
-        ═══════════════════════════════════════════ */}
-        <section id="plan-estudios" className="flex flex-col items-center scroll-mt-32">
-          <ScrollReveal>
-            <div className={`bg-gray-50 w-full rounded-3xl ${SHADOW_CARD} p-10 md:p-14 border border-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
-              <h2 className="text-2xl font-bold text-blue-700 uppercase mb-10 text-center tracking-wide">
-                Plan de Estudios
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
-                <ScrollReveal delay={0.1} direction="left">
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-800 border-b-2 border-gray-200 pb-3 mb-5 uppercase tracking-wide">
-                      I. Histología General
-                    </h3>
-                    <ul className="list-none space-y-3 text-gray-600 font-medium md:text-base">
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Biología Celular y Técnicas Histológicas</li>
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Tejido Epitelial y Glandular</li>
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Tejido Conectivo y Adiposo</li>
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Tejido Cartilaginoso y Óseo</li>
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Tejido Sanguíneo y Hematopoyesis</li>
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Tejido Muscular y Nervioso</li>
-                    </ul>
-                  </div>
-                </ScrollReveal>
+      {/* Header */}
+      <div className="pt-16 pb-10 text-center px-4">
+        <ScrollReveal direction="down" duration={0.7}>
+          <h1 className="text-3xl lg:text-4xl font-extrabold text-[#001f3f] uppercase tracking-widest">
+            Información Académica
+          </h1>
+          <div className="mt-4 mx-auto w-16 h-1 bg-[#4da3ff] rounded-full" />
+          <p className="mt-5 text-slate-500 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+            Plan de estudios, sistema de evaluación, bibliografía recomendada y cronograma anual.
+          </p>
+        </ScrollReveal>
+      </div>
 
-                <ScrollReveal delay={0.3} direction="right">
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-800 border-b-2 border-gray-200 pb-3 mb-5 uppercase tracking-wide">
-                      II. Histología Especial 
-                    </h3>
-                    <ul className="list-none space-y-3 text-gray-600 font-medium md:text-base">
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Aparato Cardiovascular e Inmunitario</li>
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Aparato Digestivo y Glándulas Anexas</li>
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Aparato Respiratorio y Urinario</li>
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Sistema Endocrino (Glándulas Principales)</li>
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Aparato Reproductor Femenino</li>
-                      <li className="flex items-start"><span className="text-blue-600 mr-2 font-bold">•</span> Aparato Reproductor Masculino</li>
-                    </ul>
-                  </div>
-                </ScrollReveal>
-              </div>
-            </div>
-          </ScrollReveal>
-        </section>
+      {/* ═══════════════════════════════════════════
+          LAYOUT: Sidebar + Contenido
+      ═══════════════════════════════════════════ */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
 
-        {/* ═══════════════════════════════════════════
-            SECCIÓN: SISTEMA DE EVALUACIÓN Y BIBLIOGRAFÍA
-        ═══════════════════════════════════════════ */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-14">
-          
-          {/* Sistema de Evaluación */}
-          <section id="sistema-evaluacion" className="flex flex-col items-center scroll-mt-32">
-            <ScrollReveal delay={0.1} direction="left" className="flex flex-col items-center w-full">
-              <h2 className="text-xl md:text-2xl font-bold text-[#001f3f] uppercase mb-8 tracking-wide">
-                Sistema de Evaluación
-              </h2>
-              <div className={`bg-gray-50 w-full rounded-3xl ${SHADOW_CARD} p-8 md:p-10 border border-gray-100 grow transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
-                <div className="flex flex-col">
-                  {evaluaciones.map((item, index) => (
-                    <div key={index} className="flex justify-between items-center py-4 border-b border-gray-200/80 last:border-0 last:pb-0 gap-4">
-                      <span className="text-gray-500 font-medium text-sm lg:text-base">{item.label}</span>
-                      <span className="text-gray-800 font-bold whitespace-nowrap">{item.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </ScrollReveal>
-          </section>
-
-          {/* Bibliografía */}
-          <section id="bibliografia" className="flex flex-col items-center scroll-mt-32">
-            <ScrollReveal delay={0.3} direction="right" className="flex flex-col items-center w-full">
-              <h2 className="text-xl md:text-2xl font-bold text-[#001f3f] uppercase mb-8 tracking-wide">
-                Bibliografía
-              </h2>
-              <div className={`bg-gray-50 w-full rounded-3xl ${SHADOW_CARD} p-8 md:p-10 border border-gray-100 grow transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
-                <div className="flex flex-col">
-                  {bibliografias.map((item, index) => (
-                    <div key={index} className="flex justify-between items-center py-4 border-b border-gray-200/80 last:border-0 last:pb-0 gap-4">
-                      <span className="text-gray-500 font-medium text-sm lg:text-base leading-snug">{item.label}</span>
-                      <span className="text-gray-800 font-bold text-right text-xs lg:text-sm leading-tight max-w-[130px] shrink-0">{item.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </ScrollReveal>
-          </section>
-
+        {/* Mobile: Nav horizontal */}
+        <div className="flex lg:hidden overflow-x-auto gap-2 pb-6 scrollbar-hide">
+          {sidebarLinks.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              className="shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full bg-white border border-slate-200 shadow-sm text-sm font-semibold text-[#001f3f] hover:bg-[#001f3f] hover:text-white transition-all duration-300"
+            >
+              <link.icon className="w-4 h-4" />
+              {link.label}
+            </a>
+          ))}
         </div>
 
-        {/* ═══════════════════════════════════════════
-            SECCIÓN: CRONOGRAMA ANUAL
-        ═══════════════════════════════════════════ */}
-        <section id="cronograma-anual" className="flex flex-col items-center scroll-mt-32">
-          <ScrollReveal>
-            <h2 className="text-2xl font-bold text-[#001f3f] uppercase mb-8 tracking-wide text-center">
-              Cronograma Anual
-            </h2>
-            <div className={`bg-gray-50 w-full max-w-3xl mx-auto rounded-3xl ${SHADOW_CARD} p-10 md:p-14 border border-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
-              <div className="flex flex-col">
-                {cronograma.map((item, index) => (
-                  <div key={index} className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-5 border-b border-gray-200/80 last:border-0 last:pb-0 gap-3">
-                    <span className="text-gray-500 font-medium text-sm lg:text-base">{item.label}</span>
-                    <span className="text-gray-800 font-bold text-sm bg-white px-4 py-2.5 border border-gray-100 rounded-lg shadow-sm w-fit">{item.value}</span>
+        <div className="flex gap-10">
+
+          {/* Sidebar sticky — solo desktop */}
+          <aside className="hidden lg:block w-64 shrink-0">
+            <nav className="sticky top-24 space-y-2">
+              {sidebarLinks.map((link) => (
+                <a
+                  key={link.id}
+                  href={`#${link.id}`}
+                  className="group flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600
+                             hover:bg-[#001f3f] hover:text-white hover:shadow-lg hover:shadow-[#001f3f]/20
+                             transition-all duration-300"
+                >
+                  <link.icon className="w-5 h-5 text-[#001f3f] group-hover:text-white transition-colors" />
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          </aside>
+
+          {/* Contenido principal */}
+          <div className="flex-1 min-w-0 space-y-20">
+
+            {/* ═══════════════════════════════════════
+                1. PLAN DE ESTUDIOS
+            ═══════════════════════════════════════ */}
+            <section id="plan-estudios" className="scroll-mt-28">
+              <ScrollReveal>
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 rounded-lg bg-[#001f3f]/8 flex items-center justify-center">
+                    <GraduationCap className="w-5 h-5 text-[#001f3f]" />
                   </div>
+                  <h2 className="text-2xl font-extrabold text-[#001f3f] uppercase tracking-wider">Plan de Estudios</h2>
+                </div>
+              </ScrollReveal>
+
+              {/* Histología General */}
+              <div className="mb-10">
+                <ScrollReveal delay={0.05}>
+                  <h3 className="text-lg font-bold text-slate-800 mb-5 flex items-center gap-2">
+                    <FlaskConical className="w-5 h-5 text-[#001f3f]/60" />
+                    I. Histología General
+                  </h3>
+                </ScrollReveal>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {planGeneral.map((item, i) => (
+                    <ScrollReveal key={item.title} delay={i * 0.06} direction="up">
+                      <div className="group bg-white rounded-xl shadow-md border border-slate-100 p-5
+                                      transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:scale-[1.02]">
+                        <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#001f3f] transition-colors mb-1">
+                          {item.title}
+                        </h4>
+                        <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+                      </div>
+                    </ScrollReveal>
+                  ))}
+                </div>
+              </div>
+
+              {/* Histología Especial */}
+              <div>
+                <ScrollReveal delay={0.05}>
+                  <h3 className="text-lg font-bold text-slate-800 mb-5 flex items-center gap-2">
+                    <Microscope className="w-5 h-5 text-[#001f3f]/60" />
+                    II. Histología Especial
+                  </h3>
+                </ScrollReveal>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {planEspecial.map((item, i) => (
+                    <ScrollReveal key={item.title} delay={i * 0.06} direction="up">
+                      <div className="group bg-white rounded-xl shadow-md border border-slate-100 p-5
+                                      transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:scale-[1.02]">
+                        <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#001f3f] transition-colors mb-1">
+                          {item.title}
+                        </h4>
+                        <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
+                      </div>
+                    </ScrollReveal>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* ═══════════════════════════════════════
+                2. SISTEMA DE EVALUACIÓN
+            ═══════════════════════════════════════ */}
+            <section id="evaluacion" className="scroll-mt-28">
+              <ScrollReveal>
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 rounded-lg bg-[#001f3f]/8 flex items-center justify-center">
+                    <ClipboardCheck className="w-5 h-5 text-[#001f3f]" />
+                  </div>
+                  <h2 className="text-2xl font-extrabold text-[#001f3f] uppercase tracking-wider">Sistema de Evaluación</h2>
+                </div>
+              </ScrollReveal>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {evaluaciones.map((item, i) => (
+                  <ScrollReveal key={item.label} delay={i * 0.08} direction="up">
+                    <div className="group bg-white rounded-2xl shadow-md border border-slate-100 p-6 text-center
+                                    transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                      {/* Porcentaje grande */}
+                      <div className="text-4xl font-extrabold text-[#001f3f] mb-3 group-hover:scale-110 transition-transform duration-500">
+                        {item.pct}%
+                      </div>
+                      <p className="text-sm text-slate-600 font-medium leading-snug">{item.label}</p>
+                    </div>
+                  </ScrollReveal>
                 ))}
               </div>
-            </div>
-          </ScrollReveal>
-        </section>
 
+              {/* Barra visual total */}
+              <ScrollReveal delay={0.3}>
+                <div className="mt-6 bg-white rounded-xl shadow-md border border-slate-100 p-5 flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-600">Total</span>
+                  <div className="flex-1 mx-4 h-3 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-[#001f3f] to-[#4da3ff] rounded-full w-full" />
+                  </div>
+                  <span className="text-lg font-extrabold text-[#001f3f]">100%</span>
+                </div>
+              </ScrollReveal>
+            </section>
+
+            {/* ═══════════════════════════════════════
+                3. BIBLIOGRAFÍA
+            ═══════════════════════════════════════ */}
+            <section id="bibliografia" className="scroll-mt-28">
+              <ScrollReveal>
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 rounded-lg bg-[#001f3f]/8 flex items-center justify-center">
+                    <BookOpen className="w-5 h-5 text-[#001f3f]" />
+                  </div>
+                  <h2 className="text-2xl font-extrabold text-[#001f3f] uppercase tracking-wider">Bibliografía</h2>
+                </div>
+              </ScrollReveal>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {bibliografias.map((libro, i) => (
+                  <ScrollReveal key={libro.title} delay={i * 0.08} direction="up">
+                    <div className="group bg-white rounded-2xl shadow-md border border-slate-100 p-6 flex items-start gap-4 h-full
+                                    transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                      {/* Icono libro */}
+                      <div className="shrink-0 w-12 h-12 rounded-full bg-[#001f3f]/8 flex items-center justify-center
+                                      transition-all duration-500 group-hover:bg-[#001f3f] group-hover:shadow-lg group-hover:shadow-[#001f3f]/20">
+                        <BookMarked className="w-5 h-5 text-[#001f3f] group-hover:text-white transition-colors duration-500" />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="text-sm font-bold text-slate-900 leading-snug mb-1 group-hover:text-[#001f3f] transition-colors">
+                          {libro.title}
+                        </h3>
+                        <p className="text-xs text-slate-500">{libro.author}</p>
+                        <span className="inline-block mt-2 text-[10px] font-bold uppercase tracking-wider text-[#001f3f] bg-[#001f3f]/8 px-2 py-0.5 rounded">
+                          {libro.edition}
+                        </span>
+                      </div>
+                    </div>
+                  </ScrollReveal>
+                ))}
+              </div>
+            </section>
+
+            {/* ═══════════════════════════════════════
+                4. CRONOGRAMA ANUAL — Timeline
+            ═══════════════════════════════════════ */}
+            <section id="cronograma" className="scroll-mt-28">
+              <ScrollReveal>
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-10 h-10 rounded-lg bg-[#001f3f]/8 flex items-center justify-center">
+                    <CalendarDays className="w-5 h-5 text-[#001f3f]" />
+                  </div>
+                  <h2 className="text-2xl font-extrabold text-[#001f3f] uppercase tracking-wider">Cronograma Anual</h2>
+                </div>
+              </ScrollReveal>
+
+              {/* Timeline vertical */}
+              <div className="relative ml-4 md:ml-6">
+                {/* Línea central */}
+                <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-[#001f3f]/15 rounded-full" />
+
+                <div className="space-y-8">
+                  {cronograma.map((item, i) => (
+                    <ScrollReveal key={item.label} delay={i * 0.1} direction="left">
+                      <div className="relative flex items-start gap-6 group">
+                        {/* Nodo */}
+                        <div className="relative z-10 shrink-0 w-7 h-7 rounded-full bg-[#001f3f] border-4 border-white shadow-lg
+                                        transition-all duration-300 group-hover:scale-125 group-hover:shadow-[#001f3f]/40" />
+
+                        {/* Card */}
+                        <div className="bg-white rounded-xl shadow-md border border-slate-100 p-5 flex-1 -mt-1
+                                        transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl">
+                          <div className="flex items-center justify-between gap-4 mb-1">
+                            <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#001f3f] transition-colors">
+                              {item.label}
+                            </h4>
+                            <span className="shrink-0 text-xs font-bold text-white bg-[#001f3f] px-3 py-1 rounded-full">
+                              {item.date}
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-400 font-medium">Gestión {item.year}</p>
+                        </div>
+                      </div>
+                    </ScrollReveal>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </div>
       </div>
     </main>
   )

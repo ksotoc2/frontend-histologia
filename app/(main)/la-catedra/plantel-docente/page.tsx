@@ -18,7 +18,7 @@ export const metadata = {
 
 export default function PlantelDocentePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
+    <main className="min-h-screen bg-linear-to-b from-slate-50 via-white to-slate-50">
 
       {/* ═══════════════════════════════════════════
           HEADER
@@ -55,7 +55,7 @@ export default function PlantelDocentePage() {
                                 hover:-translate-y-2 hover:shadow-2xl hover:scale-[1.02]">
 
                   {/* Banner superior */}
-                  <div className="h-28 bg-gradient-to-br from-[#001f3f] to-[#003366] relative flex justify-center">
+                  <div className="h-28 bg-linear-to-br from-[#001f3f] to-[#003366] relative flex justify-center">
                     {/* Avatar */}
                     <div className="absolute -bottom-8 w-16 h-16 rounded-full bg-white shadow-lg border-4 border-white
                                     flex items-center justify-center

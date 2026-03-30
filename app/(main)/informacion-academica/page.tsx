@@ -71,7 +71,7 @@ const cronograma = [
 
 export default function InformacionAcademicaPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
+    <main className="min-h-screen bg-linear-to-b from-slate-50 via-white to-slate-50">
 
       {/* Header */}
       <div className="pt-16 pb-10 text-center px-4">
@@ -221,7 +221,7 @@ export default function InformacionAcademicaPage() {
                 <div className="mt-6 bg-white rounded-xl shadow-md border border-slate-100 p-5 flex items-center justify-between">
                   <span className="text-sm font-bold text-slate-600">Total</span>
                   <div className="flex-1 mx-4 h-3 bg-slate-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-[#001f3f] to-[#4da3ff] rounded-full w-full" />
+                    <div className="h-full bg-linear-to-r from-[#001f3f] to-[#4da3ff] rounded-full w-full" />
                   </div>
                   <span className="text-lg font-extrabold text-[#001f3f]">100%</span>
                 </div>

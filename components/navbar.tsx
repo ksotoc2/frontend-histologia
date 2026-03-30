@@ -34,8 +34,8 @@ const navItems = [
     label: 'Estudiantes',
     href: '/estudiantes',
     subItems: [
-      { label: 'Avisos y Comunicados', href: '/estudiantes/avisos' },
-      { label: 'Grupos y Rotaciones', href: '/estudiantes/grupos-rotaciones' },
+      { label: 'Avisos y Comunicados', href: '/estudiantes#avisos' },
+      { label: 'Grupos', href: '/estudiantes#grupos' },
     ]
   },
   {

@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function CatedraPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
+    <main className="min-h-screen bg-linear-to-b from-slate-50 via-white to-slate-50">
 
       {/* ═══════════════════════════════════════════
           HEADER
@@ -97,7 +97,7 @@ export default function CatedraPage() {
                   sizes="(max-width: 768px) 100vw, 40vw"
                 />
                 {/* Overlay gradiente */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#001f3f]/10 md:bg-gradient-to-l" />
+                <div className="absolute inset-0 bg-linear-to-r from-transparent to-[#001f3f]/10 md:bg-linear-to-l" />
               </div>
 
               {/* Contenido */}
@@ -141,10 +141,10 @@ export default function CatedraPage() {
               {/* Foto */}
               <div className="w-full md:w-5/12 relative min-h-[350px] md:min-h-[450px]">
                 <Image
-                  src="https://images.unsplash.com/photo-1612349317150-e410f624c427?q=80&w=1000&auto=format&fit=crop"
+                  src="/jefe-catedra.jpg"
                   alt="Jefe de Cátedra"
                   fill
-                  className="object-cover object-top"
+                  className="object-cover object-center"
                   sizes="(max-width: 768px) 100vw, 40vw"
                 />
               </div>

@@ -24,7 +24,7 @@ const accesosRapidos = [
     title: 'Avisos Importantes',
     text: 'Consulte las fechas reprogramadas para el primer parcial y el inicio de rotaciones para el Grupo A.',
     tags: ['Histología I', 'Parciales'],
-    href: '/estudiantes/avisos',
+    href: '/estudiantes#avisos',
   },
   {
     icon: Calendar,
@@ -106,7 +106,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 flex flex-col items-center">
+    <main className="min-h-screen bg-linear-to-b from-slate-50 via-white to-slate-50 flex flex-col items-center">
 
       {/* ═══════════════════════════════════════════
           1. HERO CAROUSEL — INTACTO

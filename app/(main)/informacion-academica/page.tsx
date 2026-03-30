@@ -38,7 +38,7 @@ export default function InformacionAcademicaPage() {
       
       {/* TÍTULO PRINCIPAL */}
       <ScrollReveal direction="down" duration={0.7}>
-        <h1 className="text-3xl lg:text-4xl font-extrabold text-red-600 text-center mb-16 uppercase tracking-widest drop-shadow-sm">
+        <h1 className="text-3xl lg:text-4xl font-extrabold text-[#001f3f] text-center mb-16 uppercase tracking-widest drop-shadow-sm">
           Información Académica
         </h1>
       </ScrollReveal>
@@ -100,7 +100,7 @@ export default function InformacionAcademicaPage() {
           {/* Sistema de Evaluación */}
           <section id="sistema-evaluacion" className="flex flex-col items-center scroll-mt-32">
             <ScrollReveal delay={0.1} direction="left" className="flex flex-col items-center w-full">
-              <h2 className="text-xl md:text-2xl font-bold text-red-600 uppercase mb-8 tracking-wide">
+              <h2 className="text-xl md:text-2xl font-bold text-[#001f3f] uppercase mb-8 tracking-wide">
                 Sistema de Evaluación
               </h2>
               <div className={`bg-gray-50 w-full rounded-3xl ${SHADOW_CARD} p-8 md:p-10 border border-gray-100 grow transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
@@ -119,7 +119,7 @@ export default function InformacionAcademicaPage() {
           {/* Bibliografía */}
           <section id="bibliografia" className="flex flex-col items-center scroll-mt-32">
             <ScrollReveal delay={0.3} direction="right" className="flex flex-col items-center w-full">
-              <h2 className="text-xl md:text-2xl font-bold text-red-600 uppercase mb-8 tracking-wide">
+              <h2 className="text-xl md:text-2xl font-bold text-[#001f3f] uppercase mb-8 tracking-wide">
                 Bibliografía
               </h2>
               <div className={`bg-gray-50 w-full rounded-3xl ${SHADOW_CARD} p-8 md:p-10 border border-gray-100 grow transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
@@ -142,7 +142,7 @@ export default function InformacionAcademicaPage() {
         ═══════════════════════════════════════════ */}
         <section id="cronograma-anual" className="flex flex-col items-center scroll-mt-32">
           <ScrollReveal>
-            <h2 className="text-2xl font-bold text-red-600 uppercase mb-8 tracking-wide text-center">
+            <h2 className="text-2xl font-bold text-[#001f3f] uppercase mb-8 tracking-wide text-center">
               Cronograma Anual
             </h2>
             <div className={`bg-gray-50 w-full max-w-3xl mx-auto rounded-3xl ${SHADOW_CARD} p-10 md:p-14 border border-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>

@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { ChevronDown, LogOut, User as UserIcon, Menu, X } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
+import { LoginModal } from '@/components/login-modal'
 
 // Define the precise nested navigational structure
 const navItems = [
@@ -50,10 +51,12 @@ const navItems = [
 export function Navbar({ isScrolled = false }: { isScrolled?: boolean }) {
   const [isOpen, setIsOpen] = useState(false)
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null)
+  const [showLogin, setShowLogin] = useState(false)
   
   const { user, logout } = useAuth()
 
   return (
+    <>
     <nav className={`sticky top-0 z-50 bg-blue-700 text-white shadow-lg navbar-wrapper ${isScrolled ? 'navbar-shrunk' : 'navbar-expanded'}`}>
       {/* Fondo anatómico Histológico vectorizado — INTACTO */}
       <div
@@ -109,17 +112,14 @@ export function Navbar({ isScrolled = false }: { isScrolled?: boolean }) {
             </div>
           ))}
 
-          {/* Separador vertical sutil */}
-          <div className="w-px h-6 bg-white/20" />
-
-          {/* Botón de sesión */}
+          {/* Acceso de sesión (sutil — uso interno) */}
           {!user ? (
-            <Link 
-              href="/login"
-              className="bg-white text-[#001f3f] font-semibold px-5 py-1.5 rounded-md hover:bg-gray-100 transition-colors text-sm whitespace-nowrap"
+            <button 
+              onClick={() => setShowLogin(true)}
+              className="text-white/60 text-sm font-medium hover:text-white transition-colors whitespace-nowrap cursor-pointer"
             >
-              Iniciar Sesión
-            </Link>
+              Acceder
+            </button>
           ) : (
             <div className="relative group">
               <button
@@ -220,16 +220,18 @@ export function Navbar({ isScrolled = false }: { isScrolled?: boolean }) {
             </li>
           ))}
 
-          {/* Botón de sesión en móvil */}
-          <li className="mt-6">
+          {/* Acceso de sesión en móvil (sutil) */}
+          <li className="mt-4 pt-4 border-t border-white/10">
             {!user ? (
-              <Link 
-                href="/login"
-                onClick={() => setIsOpen(false)}
-                className="block text-center bg-white text-[#001f3f] font-bold px-6 py-3 rounded-md hover:bg-gray-100 transition-colors text-sm"
+              <button 
+                onClick={() => {
+                  setIsOpen(false)
+                  setShowLogin(true)
+                }}
+                className="block py-3 text-sm text-white/50 hover:text-white transition-colors w-full text-left cursor-pointer"
               >
-                Iniciar Sesión
-              </Link>
+                Acceder
+              </button>
             ) : (
               <button 
                 onClick={() => {
@@ -245,5 +247,9 @@ export function Navbar({ isScrolled = false }: { isScrolled?: boolean }) {
         </ul>
       </div>
     </nav>
+
+    {/* Modal de Login (se renderiza fuera del nav para evitar z-index issues) */}
+    <LoginModal isOpen={showLogin} onClose={() => setShowLogin(false)} />
+    </>
   )
 }

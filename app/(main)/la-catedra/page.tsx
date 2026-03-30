@@ -13,7 +13,7 @@ export default function CatedraPage() {
       
       {/* TÍTULO PRINCIPAL */}
       <ScrollReveal direction="down" duration={0.7}>
-        <h1 className="text-3xl lg:text-4xl font-extrabold text-red-600 text-center mb-16 uppercase tracking-widest drop-shadow-sm">
+        <h1 className="text-3xl lg:text-4xl font-extrabold text-[#001f3f] text-center mb-16 uppercase tracking-widest drop-shadow-sm">
           La Cátedra - Histología
         </h1>
       </ScrollReveal>
@@ -28,7 +28,7 @@ export default function CatedraPage() {
           {/* Misión */}
           <ScrollReveal delay={0.1} direction="left">
             <div className="flex flex-col items-center h-full">
-              <h2 className="text-2xl font-bold text-red-600 uppercase mb-8 tracking-wide">Misión</h2>
+              <h2 className="text-2xl font-bold text-[#001f3f] uppercase mb-8 tracking-wide">Misión</h2>
               <div className={`bg-white w-full rounded-3xl ${SHADOW_CARD} p-10 md:p-12 border border-slate-100 relative grow transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
                 <p className="text-slate-500 font-medium leading-loose text-sm md:text-base">
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate beatae assumenda perspiciatis voluptatibus nostrum ratione deleniti et alias officiis, magni eum molestias debitis facilis. Voluptates nihil rerum qui! Repudiandae, vel?
@@ -40,7 +40,7 @@ export default function CatedraPage() {
           {/* Visión */}
           <ScrollReveal delay={0.3} direction="right">
             <div className="flex flex-col items-center h-full">
-              <h2 className="text-2xl font-bold text-red-600 uppercase mb-8 tracking-wide">Visión</h2>
+              <h2 className="text-2xl font-bold text-[#001f3f] uppercase mb-8 tracking-wide">Visión</h2>
               <div className={`bg-white w-full rounded-3xl ${SHADOW_CARD} p-10 md:p-12 border border-slate-100 relative grow transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_10px_25px_rgba(0,0,0,0.06)]`}>
                 <p className="text-slate-500 font-medium leading-loose text-sm md:text-base">
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate beatae assumenda perspiciatis voluptatibus nostrum ratione deleniti et alias officiis, magni eum molestias debitis facilis. Voluptates nihil rerum qui! Repudiandae, vel?
@@ -56,7 +56,7 @@ export default function CatedraPage() {
         ═══════════════════════════════════════════ */}
         <section id="historia" className="flex flex-col items-center scroll-mt-32">
           <ScrollReveal>
-            <h2 className="text-2xl font-bold text-red-600 uppercase mb-8 tracking-wide text-center">Historia</h2>
+            <h2 className="text-2xl font-bold text-[#001f3f] uppercase mb-8 tracking-wide text-center">Historia</h2>
           </ScrollReveal>
           
           <ScrollReveal delay={0.15} className="w-full">

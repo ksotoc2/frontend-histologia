@@ -22,7 +22,7 @@ export default function PlantelDocentePage() {
         
         <ScrollReveal direction="down" duration={0.7}>
           <header className="text-center space-y-4">
-            <h1 className="text-3xl lg:text-4xl font-extrabold text-red-600 uppercase tracking-widest drop-shadow-sm">Plantel Docente</h1>
+            <h1 className="text-3xl lg:text-4xl font-extrabold text-[#001f3f] uppercase tracking-widest drop-shadow-sm">Plantel Docente</h1>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Conoce a los profesionales de la salud encargados de dictar la cátedra y guiarte en el descubrimiento microscópico funcional.
             </p>
